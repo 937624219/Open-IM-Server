@@ -19,7 +19,7 @@ func key(dbAddress, dbName string) string {
 	return dbAddress + "_" + dbName
 }
 
-func init() {
+func Init() {
 	//mysql init
 	initMysqlDB()
 	// mongo init
