@@ -40,6 +40,7 @@ func initMysqlDB() {
 	if err != nil {
 		panic(err)
 	}
+	defer db.Close()
 
 	sqlTable := "CREATE TABLE IF NOT EXISTS `user` (\n  `uid` varchar(64) NOT NULL,\n  `name` varchar(64) DEFAULT NULL,\n  `icon` varchar(1024) DEFAULT NULL,\n  `gender` int(11) unsigned zerofill DEFAULT NULL,\n  `mobile` varchar(32) DEFAULT NULL,\n  `birth` varchar(16) DEFAULT NULL,\n  `email` varchar(64) DEFAULT NULL,\n  `ex` varchar(1024) DEFAULT NULL,\n  `create_time` datetime DEFAULT NULL,\n  PRIMARY KEY (`uid`),\n  UNIQUE KEY `uk_uid` (`uid`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
 	err = db.Exec(sqlTable).Error

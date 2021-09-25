@@ -62,9 +62,9 @@ func (ws *WServer) readMsg(conn *websocket.Conn) {
 			log.ErrorByKv("WS ReadMsg error", "", "userIP", conn.RemoteAddr().String(), "userUid", ws.getUserUid(conn), "error", err)
 			ws.delUserConn(conn)
 			return
-		} else {
-			log.ErrorByKv("test", "", "msgType", msgType, "userIP", conn.RemoteAddr().String(), "userUid", ws.getUserUid(conn))
 		}
+		log.ErrorByKv("test", "", "msgType", msgType, "userIP", conn.RemoteAddr().String(), "userUid", ws.getUserUid(conn))
+
 		ws.msgParse(conn, msg)
 		//ws.writeMsg(conn, 1, chat)
 	}
