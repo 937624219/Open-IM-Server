@@ -42,11 +42,11 @@ Options:
 
   BINS             Binaries to build. Default is all binaries under cmd.
                    This option is available when using: make {build}(.multiarch)
-                   Example: make build BINS="open_im_api open_im_cms_api"
+                   Example: make build BINS="open_im_api open_im_cms_api".
 
   PLATFORMS        Platform to build for. Default is linux_arm64 and linux_amd64.
                    This option is available when using: make {build}.multiarch
-                   Example: make build.multiarch PLATFORMS="linux_arm64 linux_amd64"
+                   Example: make build.multiarch PLATFORMS="linux_arm64 linux_amd64".
 
   V                Set to 1 enable verbose build. Default is 0.
 endef
@@ -60,6 +60,11 @@ export USAGE_OPTIONS
 build:
 	@$(MAKE) go.build
 
+## build-multiarch: Build binaries for multiple platforms. See option PLATFORMS.
+.PHONY: build-multiarch
+build-multiarch:
+	@$(MAKE) go.build.multiarch
+
 ## tidy: tidy go.mod
 .PHONY: tidy
 tidy:
@@ -69,6 +74,10 @@ tidy:
 .PHONY: vendor
 vendor:
 	@$(GO) mod vendor
+
+## style: code style -> fmt,vet,lint
+.PHONY: style
+style: fmt vet lint
 
 ## fmt: Run go fmt against code.
 .PHONY: fmt
@@ -85,13 +94,9 @@ vet:
 lint:
 	@$(MAKE) go.lint
 
-## style: code style -> fmt,vet,lint
-.PHONY: style
-style: fmt vet lint
-
 ## format: Gofmt (reformat) package sources (exclude vendor dir if existed).
 .PHONY: format
-format: 
+format:
 	@$(MAKE) go.format
 
 ## test: Run unit test.
@@ -118,6 +123,26 @@ imports:
 clean:
 	@$(MAKE) go.clean
 
+## image: Build docker images for host arch.
+.PHONY: image
+image:
+	@$(MAKE) image.build
+
+## image.multiarch: Build docker images for multiple platforms. See option PLATFORMS.
+.PHONY: image.multiarch
+image.multiarch:
+	@$(MAKE) image.build.multiarch
+
+## push: Build docker images for host arch and push images to registry.
+.PHONY: push
+push:
+	@$(MAKE) image.push
+
+## push.multiarch: Build docker images for multiple platforms and push images to registry.
+.PHONY: push.multiarch
+push.multiarch:
+	@$(MAKE) image.push.multiarch
+
 ## tools: Install dependent tools.
 .PHONY: tools
 tools:
@@ -143,7 +168,7 @@ add-copyright:
 help: Makefile
 	$(call makehelp)
 
-## all-help: Show all help details info.
+## help-all: Show all help details info.
 .PHONY: help-all
 help-all: go.help copyright.help tools.help image.help help
 	$(call makeallhelp)

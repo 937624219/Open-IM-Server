@@ -1,23 +1,30 @@
-# Open-IM-Server 
-
-<p align="center">
-<b>Open source Instant Messaging Server</b>
-</p>
+<h1 align="center" style="border-bottom: none">
+    <b>
+        <a href="https://doc.rentsoft.cn/">Open IM Server</a><br>
+    </b>
+    ⭐️  Open source Instant Messaging Server  ⭐️ <br>
+</h1>
 
 
 <p align=center>
 <a href="https://goreportcard.com/report/github.com/OpenIMSDK/Open-IM-Server"><img src="https://goreportcard.com/badge/github.com/OpenIMSDK/Open-IM-Server" alt="A+"></a>
 <a href="https://github.com/OpenIMSDK/Open-IM-Server/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22"><img src="https://img.shields.io/github/issues/OpenIMSDK/Open-IM-Server/good%20first%20issue?logo=%22github%22" alt="good first"></a>
-<a href="https://join.slack.com/t/openimsdk/shared_invite/zt-1tmoj26uf-_FDy3dowVHBiGvLk9e5Xkg"><img src="https://img.shields.io/badge/Slack-10%2B-blueviolet?logo=slack&amp;logoColor=white"></a>
+<a href="https://github.com/OpenIMSDK/Open-IM-Server"><img src="https://img.shields.io/github/stars/OpenIMSDK/Open-IM-Server.svg?style=flat&logo=github&colorB=deeppink&label=stars"></a>
+<a href="https://join.slack.com/t/openimsdk/shared_invite/zt-1tmoj26uf-_FDy3dowVHBiGvLk9e5Xkg"><img src="https://img.shields.io/badge/Slack-100%2B-blueviolet?logo=slack&amp;logoColor=white"></a>
 <a href="https://github.com/OpenIMSDK/Open-IM-Server/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-green"></a>
 <a href="https://golang.org/"><img src="https://img.shields.io/badge/Language-Go-blue.svg"></a>
 </p>
 
+</p>
+
+<p align="center">
+    <a href="./README.md"><b>English</b></a> •
+    <a href="./README-zh_CN.md"><b>中文</b></a>
+</p>
+
+</p>
 
 ## What is Open-IM-Server
-
-> **Note** 🔍 
-> English | [中文](./README_zh.md)
 
 Instant messaging server. Backend in pure Golang, wire transport protocol is JSON over websocket.
 Everything is a message in Open-IM-Server, so you can extend custom messages easily, there is no need to modify the server code.
@@ -35,7 +42,7 @@ By deployment of the Open-IM-Server on the customer's server, developers can int
 - Supports multiple protocols
 
 ## Community
-- Visit the Chinese official website here: [Open-IM中文开发文档](https://doc.rentsoft.cn/)
+- Visit the Chinese official website here: [📚 Open-IM docs](https://www.openim.online/zh)
 
 ## Quick start
 
@@ -88,7 +95,7 @@ By deployment of the Open-IM-Server on the customer's server, developers can int
 
 ```shell
 git clone https://github.com/OpenIMSDK/Open-IM-Server.git --recursive 
-cd cmd/Open-IM-SDK-Core
+cd cmd/openim-sdk-core
 git checkout main
 ```
 
@@ -167,7 +174,7 @@ Contributions to this project are welcome! Please see [CONTRIBUTING.md](./CONTRI
 ## Community Meetings
 We want anyone to get involved in our community, we offer gifts and rewards, and we welcome you to join us every Thursday night.
 
-We take notes of each [biweekly meeting](https://github.com/OpenIMSDK/Open-IM-Server/issues/381) in [GitHub discussions](https://github.com/OpenIMSDK/Open-IM-Server/discussions/categories/meeting), and our minutes are written in [Google Docs](docs.google.com/document/d/1nx8MDpuG74NASx081JcCpxPgDITNTpIIos0DS6Vr9GU/edit?usp=sharing).
+We take notes of each [biweekly meeting](https://github.com/OpenIMSDK/Open-IM-Server/issues/381) in [GitHub discussions](https://github.com/OpenIMSDK/Open-IM-Server/discussions/categories/meeting), and our minutes are written in [Google Docs](https://docs.google.com/document/d/1nx8MDpuG74NASx081JcCpxPgDITNTpIIos0DS6Vr9GU/edit?usp=sharing).
 
 
 ## Who are using Open-IM-Server
@@ -189,4 +196,4 @@ Thank you!
 
 ## License
 
-Open-IM-Server is under the Apache 2.0 license. See the [LICENSE](https://github.com/OpenIMSDK/Open-IM-Server/blob/main/LICENSE) file for details
+Open-IM-Server is under the Apache 2.0 license. See the [LICENSE](./LICENSE) file for details

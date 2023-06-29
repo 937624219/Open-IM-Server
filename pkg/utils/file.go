@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"Open_IM/pkg/common/constant"
 	"fmt"
+	"github.com/OpenIMSDK/Open-IM-Server/pkg/common/constant"
 	"math/rand"
 	"os"
 	"path"

@@ -1,16 +1,22 @@
 package kafka
 
 import (
-	"Open_IM/pkg/common/config"
-	log "Open_IM/pkg/common/log"
-	"Open_IM/pkg/utils"
+	"context"
 	"errors"
 
-	"github.com/Shopify/sarama"
-	"github.com/golang/protobuf/proto"
+	"github.com/OpenIMSDK/Open-IM-Server/pkg/common/config"
+	"github.com/OpenIMSDK/Open-IM-Server/pkg/common/constant"
+	log "github.com/OpenIMSDK/Open-IM-Server/pkg/common/log"
+	"github.com/OpenIMSDK/Open-IM-Server/pkg/common/mcontext"
+	"github.com/OpenIMSDK/Open-IM-Server/pkg/utils"
 
-	promePkg "Open_IM/pkg/common/prometheus"
+	"github.com/Shopify/sarama"
+	"google.golang.org/protobuf/proto"
+
+	prome "github.com/OpenIMSDK/Open-IM-Server/pkg/common/prome"
 )
+
+var errEmptyMsg = errors.New("binary msg is empty")
 
 type Producer struct {
 	topic    string
@@ -26,47 +32,67 @@ func NewKafkaProducer(addr []string, topic string) *Producer {
 	p.config.Producer.Return.Errors = true
 	p.config.Producer.RequiredAcks = sarama.WaitForAll        //Set producer Message Reply level 0 1 all
 	p.config.Producer.Partitioner = sarama.NewHashPartitioner //Set the hash-key automatic hash partition. When sending a message, you must specify the key value of the message. If there is no key, the partition will be selected randomly
-	if config.Config.Kafka.SASLUserName != "" && config.Config.Kafka.SASLPassword != "" {
+	if config.Config.Kafka.Username != "" && config.Config.Kafka.Password != "" {
 		p.config.Net.SASL.Enable = true
-		p.config.Net.SASL.User = config.Config.Kafka.SASLUserName
-		p.config.Net.SASL.Password = config.Config.Kafka.SASLPassword
+		p.config.Net.SASL.User = config.Config.Kafka.Username
+		p.config.Net.SASL.Password = config.Config.Kafka.Password
 	}
 	p.addr = addr
 	p.topic = topic
-
 	producer, err := sarama.NewSyncProducer(p.addr, p.config) //Initialize the client
 	if err != nil {
 		panic(err.Error())
-		return nil
 	}
 	p.producer = producer
 	return &p
 }
 
-func (p *Producer) SendMessage(m proto.Message, key string, operationID string) (int32, int64, error) {
-	log.Info(operationID, "SendMessage", "key ", key, m.String(), p.producer)
+func GetMQHeaderWithContext(ctx context.Context) ([]sarama.RecordHeader, error) {
+	operationID, opUserID, platform, connID, err := mcontext.GetCtxInfos(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return []sarama.RecordHeader{
+		{Key: []byte(constant.OperationID), Value: []byte(operationID)},
+		{Key: []byte(constant.OpUserID), Value: []byte(opUserID)},
+		{Key: []byte(constant.OpUserPlatform), Value: []byte(platform)},
+		{Key: []byte(constant.ConnID), Value: []byte(connID)}}, err
+}
+
+func GetContextWithMQHeader(header []*sarama.RecordHeader) context.Context {
+	var values []string
+	for _, recordHeader := range header {
+		values = append(values, string(recordHeader.Value))
+	}
+	return mcontext.WithMustInfoCtx(values) // TODO
+}
+
+func (p *Producer) SendMessage(ctx context.Context, key string, msg proto.Message) (int32, int64, error) {
+	log.ZDebug(ctx, "SendMessage", "msg", msg, "topic", p.topic, "key", key)
 	kMsg := &sarama.ProducerMessage{}
 	kMsg.Topic = p.topic
 	kMsg.Key = sarama.StringEncoder(key)
-	bMsg, err := proto.Marshal(m)
+	bMsg, err := proto.Marshal(msg)
 	if err != nil {
-		log.Error(operationID, "", "proto marshal err = %s", err.Error())
-		return -1, -1, err
+		return 0, 0, utils.Wrap(err, "kafka proto Marshal err")
 	}
 	if len(bMsg) == 0 {
-		log.Error(operationID, "len(bMsg) == 0 ")
-		return 0, 0, errors.New("len(bMsg) == 0 ")
+		return 0, 0, utils.Wrap(errEmptyMsg, "")
 	}
 	kMsg.Value = sarama.ByteEncoder(bMsg)
-	log.Info(operationID, "ByteEncoder SendMessage begin", "key ", kMsg, p.producer, "len: ", kMsg.Key.Length(), kMsg.Value.Length())
 	if kMsg.Key.Length() == 0 || kMsg.Value.Length() == 0 {
-		log.Error(operationID, "kMsg.Key.Length() == 0 || kMsg.Value.Length() == 0 ", kMsg)
-		return -1, -1, errors.New("key or value == 0")
+		return 0, 0, utils.Wrap(errEmptyMsg, "")
 	}
-	a, b, c := p.producer.SendMessage(kMsg)
-	log.Info(operationID, "ByteEncoder SendMessage end", "key ", kMsg.Key.Length(), kMsg.Value.Length(), p.producer)
-	if c == nil {
-		promePkg.PromeInc(promePkg.SendMsgCounter)
+	kMsg.Metadata = ctx
+	header, err := GetMQHeaderWithContext(ctx)
+	if err != nil {
+		return 0, 0, utils.Wrap(err, "")
 	}
-	return a, b, utils.Wrap(c, "")
+	kMsg.Headers = header
+	partition, offset, err := p.producer.SendMessage(kMsg)
+	log.ZDebug(ctx, "ByteEncoder SendMessage end", "key ", kMsg.Key, "key length", kMsg.Value.Length())
+	if err == nil {
+		prome.Inc(prome.SendMsgCounter)
+	}
+	return partition, offset, utils.Wrap(err, "")
 }

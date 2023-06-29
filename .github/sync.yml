@@ -1,0 +1,82 @@
+# https://github.com/BetaHuhn/repo-file-sync-action
+# Synchronization for the.github repository
+OpenIMSDK/.github:
+  - source: LICENSE
+    dest: LICENSE 
+  - source: script/LICENSE/
+    dest: scripts/LICENSE/
+    replace: false
+  - source: .github/
+    dest: .github/
+    replace: false
+    exclude: |
+      workflows/
+      sync.yml
+
+OpenIMSDK/community:
+  - source: LICENSE
+    dest: LICENSE
+  - source: script/LICENSE/
+    dest: scripts/LICENSE/
+    replace: false
+  - source: .github/workflows/
+    dest: .github/workflows/
+    exclude:
+      - e2e-test.yml
+      - sync.yml
+  - source: .github/
+    dest: .github/
+    replace: false
+    exclude: |
+      sync.yml
+
+OpenIMSDK/openim-sdk-core:
+  - source: LICENSE
+    dest: LICENSE
+  - source: script/LICENSE/
+    dest: scripts/LICENSE/
+    replace: false
+  - source: .github/workflows/issue-robot.yml
+    dest: .github/workflows/issue-robot.yml
+    replace: false
+  - source: .github/workflows/stale.yml
+    dest: .github/workflows/stale.yml
+    replace: false
+
+OpenIMSDK/OpenIM-Docs:
+  - source: .github/workflows/
+    dest: .github/workflows/
+    exclude: |
+      e2e-test.yml
+      sync.yml
+  - source: script/githooks/
+    dest: scripts/githooks/
+    replace: true
+
+
+group:
+  # first group：common to all warehouses
+  # TODO: add the required warehouse here
+  - repos: |
+      OpenIMSDK/OpenKF@main
+      OpenIMSDK/openim-miniprogram-demo@main
+      OpenIMSDK/openim-sdk-cpp@main
+    files: 
+      - source: LICENSE
+        dest: LICENSE
+        replace: false
+      - source: .github/workflows/issue-robot.yml
+        dest: .github/workflows/issue-robot.yml
+        replace: false
+      - source: .github/workflows/stale.yml
+        dest: .github/workflows/stale.yml
+        replace: false
+      - source: .github/workflows/project-progress.yml
+        dest: .github/workflows/project-progress.yml
+        replace: false
+      - source: .github/workflows/help-comment-issue.yml
+        dest: .github/workflows/help-comment-issue.yml
+        replace: false
+      - source: ./script/githooks/
+        dest: ./scripts/githooks/
+        replace: true

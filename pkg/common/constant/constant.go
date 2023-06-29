@@ -2,50 +2,24 @@ package constant
 
 const (
 
-	//group admin
-	//	OrdinaryMember = 0
-	//	GroupOwner     = 1
-	//	Administrator  = 2
-	//group application
-	//	Application      = 0
-	//	AgreeApplication = 1
-
-	//friend related
-	BlackListFlag         = 1
-	ApplicationFriendFlag = 0
-	FriendFlag            = 1
-	RefuseFriendFlag      = -1
-
-	//Websocket Protocol
-	WSGetNewestSeq        = 1001
-	WSPullMsgBySeqList    = 1002
-	WSSendMsg             = 1003
-	WSSendSignalMsg       = 1004
-	WSPushMsg             = 2001
-	WSKickOnlineMsg       = 2002
-	WsLogoutMsg           = 2003
-	WsSetBackgroundStatus = 2004
-	WSDataError           = 3001
-
 	///ContentType
 	//UserRelated
-	Text                         = 101
-	Picture                      = 102
-	Voice                        = 103
-	Video                        = 104
-	File                         = 105
-	AtText                       = 106
-	Merger                       = 107
-	Card                         = 108
-	Location                     = 109
-	Custom                       = 110
-	Revoke                       = 111
-	HasReadReceipt               = 112
-	Typing                       = 113
-	Quote                        = 114
-	GroupHasReadReceipt          = 116
-	AdvancedText                 = 117
-	AdvancedRevoke               = 118 //影响前者消息
+	Text     = 101
+	Picture  = 102
+	Voice    = 103
+	Video    = 104
+	File     = 105
+	AtText   = 106
+	Merger   = 107
+	Card     = 108
+	Location = 109
+	Custom   = 110
+	Revoke   = 111
+	Typing   = 113
+	Quote    = 114
+
+	AdvancedText = 117
+
 	CustomNotTriggerConversation = 119
 	CustomOnlineOnly             = 120
 	ReactionMessageModifier      = 121
@@ -57,8 +31,8 @@ const (
 	CustomNotification = 203
 
 	//SysRelated
-	NotificationBegin                     = 1000
-	DeleteMessageNotification             = 1100
+	NotificationBegin = 1000
+
 	FriendApplicationApprovedNotification = 1201 //add_friend_response
 	FriendApplicationRejectedNotification = 1202 //add_friend_response
 	FriendApplicationNotification         = 1203 //add_friend
@@ -69,7 +43,7 @@ const (
 	BlackDeletedNotification              = 1208 //remove_black
 	FriendInfoUpdatedNotification         = 1209
 
-	ConversationOptChangeNotification = 1300 // change conversation opt
+	ConversationChangeNotification = 1300 // change conversation opt
 
 	UserNotificationBegin       = 1301
 	UserInfoUpdatedNotification = 1303 //SetSelfInfoTip              = 204
@@ -96,6 +70,8 @@ const (
 	GroupMemberInfoSetNotification           = 1516
 	GroupMemberSetToAdminNotification        = 1517
 	GroupMemberSetToOrdinaryUserNotification = 1518
+	GroupInfoSetAnnouncementNotification     = 1519
+	GroupInfoSetNameNotification             = 1520
 
 	SignalingNotificationBegin = 1600
 	SignalingNotification      = 1601
@@ -109,16 +85,18 @@ const (
 	ConversationPrivateChatNotification = 1701
 	ConversationUnreadNotification      = 1702
 
-	OrganizationChangedNotification = 1801
-
-	WorkMomentNotificationBegin = 1900
-	WorkMomentNotification      = 1901
+	MsgRevokeNotification = 2101
 
 	BusinessNotificationBegin = 2000
 	BusinessNotification      = 2001
 	BusinessNotificationEnd   = 2099
 
-	NotificationEnd = 3000
+	ClearConversationNotification = 2101
+	DeleteMsgsNotification        = 2102
+
+	HasReadReceipt = 2200
+
+	NotificationEnd = 5000
 
 	//status
 	MsgNormal  = 1
@@ -173,6 +151,8 @@ const (
 	IsSenderConversationUpdate = "senderConversationUpdate"
 	IsSenderNotificationPush   = "senderNotificationPush"
 	IsReactionFromCache        = "reactionFromCache"
+	IsNotNotification          = "isNotNotification"
+	IsSendMsg                  = "isSendMsg"
 
 	//GroupStatus
 	GroupOk              = 0
@@ -199,18 +179,12 @@ const (
 	MinioDurationTimes = 3600
 	//Aws
 	AwsDurationTimes = 3600
-	// verificationCode used for
-	VerificationCodeForRegister       = 1
-	VerificationCodeForReset          = 2
-	VerificationCodeForRegisterSuffix = "_forRegister"
-	VerificationCodeForResetSuffix    = "_forReset"
 
 	//callbackCommand
 	CallbackBeforeSendSingleMsgCommand                   = "callbackBeforeSendSingleMsgCommand"
 	CallbackAfterSendSingleMsgCommand                    = "callbackAfterSendSingleMsgCommand"
 	CallbackBeforeSendGroupMsgCommand                    = "callbackBeforeSendGroupMsgCommand"
 	CallbackAfterSendGroupMsgCommand                     = "callbackAfterSendGroupMsgCommand"
-	CallbackAfterConsumeGroupMsgCommand                  = "callbackAfterConsumeGroupMsgCommand"
 	CallbackMsgModifyCommand                             = "callbackMsgModifyCommand"
 	CallbackUserOnlineCommand                            = "callbackUserOnlineCommand"
 	CallbackUserOfflineCommand                           = "callbackUserOfflineCommand"
@@ -227,9 +201,6 @@ const (
 	CallbackGetMessageListReactionExtensionsCommand      = "callbackGetMessageListReactionExtensionsCommand"
 	CallbackAddMessageListReactionExtensionsCommand      = "callbackAddMessageListReactionExtensionsCommand"
 
-	SetMessageExtensions = 1
-	AddMessageExtensions = 2
-
 	//callback actionCode
 	ActionAllow     = 0
 	ActionForbidden = 1
@@ -241,17 +212,6 @@ const (
 	OtherType = 1
 	VideoType = 2
 	ImageType = 3
-
-	// workMoment permission
-	WorkMomentPublic            = 0
-	WorkMomentPrivate           = 1
-	WorkMomentPermissionCanSee  = 2
-	WorkMomentPermissionCantSee = 3
-
-	// workMoment sdk notification type
-	WorkMomentCommentNotification = 0
-	WorkMomentLikeNotification    = 1
-	WorkMomentAtUserNotification  = 2
 
 	// sendMsgStaus
 	MsgStatusNotExist = 0
@@ -266,6 +226,12 @@ const (
 )
 
 const (
+	UnreliableNotification    = 1
+	ReliableNotificationNoMsg = 2
+	ReliableNotificationMsg   = 3
+)
+
+const (
 	AtAllString       = "AtAllTag"
 	AtNormal          = 0
 	AtMe              = 1
@@ -275,15 +241,15 @@ const (
 )
 
 var ContentType2PushContent = map[int64]string{
-	Picture:   "[图片]",
-	Voice:     "[语音]",
-	Video:     "[视频]",
-	File:      "[文件]",
-	Text:      "你收到了一条文本消息",
-	AtText:    "[有人@你]",
-	GroupMsg:  "你收到一条群聊消息",
-	Common:    "你收到一条新消息",
-	SignalMsg: "音视频通话邀请",
+	Picture:   "[PICTURE]",
+	Voice:     "[VOICE]",
+	Video:     "[VIDEO]",
+	File:      "[File]",
+	Text:      "[TEXT]",
+	AtText:    "[@TEXT]",
+	GroupMsg:  "[GROUPMSG]]",
+	Common:    "[NEWMSG]",
+	SignalMsg: "[SIGNALINVITE]",
 }
 
 const (
@@ -292,19 +258,19 @@ const (
 	FieldAttachedInfo  = 3
 	FieldIsPrivateChat = 4
 	FieldGroupAtType   = 5
-	FieldIsNotInGroup  = 6
 	FieldEx            = 7
 	FieldUnread        = 8
 	FieldBurnDuration  = 9
+	FieldHasReadSeq    = 10
 )
 
 const (
 	AppOrdinaryUsers = 1
 	AppAdmin         = 2
 
-	GroupOrdinaryUsers = 1
-	GroupOwner         = 2
-	GroupAdmin         = 3
+	GroupOwner         = 100
+	GroupAdmin         = 60
+	GroupOrdinaryUsers = 20
 
 	GroupResponseAgree  = 1
 	GroupResponseRefuse = -1
@@ -316,10 +282,19 @@ const (
 	Female = 2
 )
 
+const OperationID = "operationID"
+const OpUserID = "opUserID"
+const ConnID = "connID"
+const OpUserPlatform = "platform"
+const Token = "token"
+const RpcCustomHeader = "customHeader" // rpc中间件自定义ctx参数
+const CheckKey = "CheckKey"
+const TriggerID = "triggerID"
+const RemoteAddr = "remoteAddr"
+
 const (
-	UnreliableNotification    = 1
-	ReliableNotificationNoMsg = 2
-	ReliableNotificationMsg   = 3
+	BecomeFriendByImport = 1 //管理员导入
+	BecomeFriendByApply  = 2 //申请添加
 )
 
 const (
@@ -349,16 +324,19 @@ func GroupIsBanPrivateChat(status int32) bool {
 	return true
 }
 
-const (
-	TokenKicked = 1001
-)
-
-const BigVersion = "v2"
-
 const LogFileName = "OpenIM.log"
 
-const StatisticsTimeInterval = 60
+const LocalHost = "0.0.0.0"
 
-const MaxNotificationNum = 500
+// flag parse
+const (
+	FlagPort   = "port"
+	FlagWsPort = "ws_port"
 
-const CurrentVersion = "v2.3.8-rc0"
+	FlagPrometheusPort = "prometheus_port"
+	FlagConf           = "config_folder_path"
+)
+
+const OpenIMCommonConfigKey = "OpenIMServerConfig"
+
+const CallbackCommand = "command"
